@@ -54,7 +54,7 @@ pipeline_start = DummyOperator(
 create_kaggle_creds = BashOperator(
     task_id="create_kaggle_creds",
     dag=dag,
-    bash_command=f"cd {airflow_home} && mkdir {airflow_home}/.kaggle && cat {airflow_home}/creds/kaggle.json > {airflow_home}/.kaggle/kaggle.json && chmod 600 {airflow_home}/.kaggle/kaggle.json
+    bash_command=f"cd {airflow_home} && mkdir {airflow_home}/.kaggle && cat {airflow_home}/creds/kaggle.json > {airflow_home}/.kaggle/kaggle.json && chmod 600 {airflow_home}/.kaggle/kaggle.json'
 )
 
 download_dataset = PythonOperator(
