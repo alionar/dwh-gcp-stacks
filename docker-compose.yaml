@@ -2,6 +2,7 @@ version: "2.1"
 
 x-airflow-service: &airflow-service
   image: puckel/docker-airflow:1.10.9
+  env_file: airflow_env
   volumes:
     - ./dags:/usr/local/airflow/dags
     - ./sql:/usr/local/airflow/sql
@@ -9,7 +10,7 @@ x-airflow-service: &airflow-service
     - ./dataset:/usr/local/airflow/dataset
     - ./creds:/usr/local/airflow/creds
     - ./requirements.txt:/requirements.txt
-    - ./creds/kaggle.json:/usr/local/airflow/.kaggle/kaggle.json
+    #- ./creds/kaggle.json:/usr/local/airflow/.kaggle/kaggle.json
   restart: always
   environment:
     - LOAD_EX=n
