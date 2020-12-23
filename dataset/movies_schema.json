@@ -1,0 +1,206 @@
+[
+    {
+        "name": "adult",
+        "type": "BOOL",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "backdrop_path",
+        "type": "STRING",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "belongs_to_collection",
+        "type": "RECORD",
+        "mode": "REPEATED",
+        "fields": [
+            {
+                "name": "id",
+                "type": "INT64",
+                "mode": "NULLABLE"
+            },
+            {
+                "name": "name",
+                "type": "STRING",
+                "mode": "NULLABLE"
+            },
+            {
+                "name": "poster_path",
+                "type": "STRING",
+                "mode": "NULLABLE"
+            },
+            {
+                "name": "backdrop_path",
+                "type": "STRING",
+                "mode": "NULLABLE"
+            }
+        ]
+    },
+    {
+        "name": "budget",
+        "type": "INT64"
+    },
+    {
+        "name": "genres",
+        "type": "RECORD",
+        "mode": "REPEATED",
+        "fields": [
+            {
+                "name": "id",
+                "type": "INT64",
+                "mode": "NULLABLE"
+            },
+            {
+                "name": "name",
+                "type": "STRING",
+                "mode": "NULLABLE"
+            }
+        ]
+    },
+    {
+        "name": "homepage",
+        "type": "STRING",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "id",
+        "type": "INT64",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "imdb_id",
+        "type": "STRING",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "original_language",
+        "type": "STRING",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "original_title",
+        "type": "STRING",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "overview",
+        "type": "STRING",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "popularity",
+        "type": "FLOAT64",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "poster_path",
+        "type": "STRING",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "production_companies",
+        "type": "RECORD",
+        "mode": "REPEATED",
+        "fields": [
+            {
+                "name": "id",
+                "type": "INT64",
+                "mode": "NULLABLE"
+            },
+            {
+                "name": "logo_path",
+                "type": "STRING",
+                "mode": "NULLABLE"
+            },
+            {
+                "name": "name",
+                "type": "STRING",
+                "mode": "NULLABLE"
+            },
+            {
+                "name": "origin_country",
+                "type": "STRING",
+                "mode": "NULLABLE"
+            }
+        ]
+    },
+    {
+        "name": "production_countries",
+        "type": "RECORD",
+        "mode": "REPEATED",
+        "fields": [
+            {
+                "name": "iso_3166_1",
+                "type": "STRING",
+                "mode": "NULLABLE"
+            },
+            {
+                "name": "name",
+                "type": "STRING",
+                "mode": "NULLABLE"
+            }
+        ]
+    },
+    {
+        "name": "release_date",
+        "type": "DATE",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "revenue",
+        "type": "INT64",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "runtime",
+        "type": "INT64",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "spoken_languages",
+        "type": "RECORD",
+        "mode": "REPEATED",
+        "fields": [
+            {
+                "name": "iso_639_1",
+                "type": "STRING",
+                "mode": "NULLABLE"
+            },
+            {
+                "name": "name",
+                "type": "STRING",
+                "mode": "NULLABLE"
+            }
+        ]
+    },
+    {
+        "name": "status",
+        "type": "STRING",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "tagline",
+        "type": "STRING",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "title",
+        "type": "STRING",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "video",
+        "type": "BOOL",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "vote_average",
+        "type": "FLOAT64",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "vote_count",
+        "type": "INT64",
+        "mode": "NULLABLE"
+    }
+]
