@@ -56,7 +56,6 @@ download_dataset = PythonOperator(
     op_kwargs={
         'dataset_name': 'edgartanaka1/tmdb-movies-and-series',
         'dl_path': f'{airflow_home}/dataset',
-        'file_name': 'tmdb-movies-and-series.zip'
     }
 )
 
