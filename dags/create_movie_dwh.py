@@ -9,6 +9,7 @@ from datetime import datetime, timedelta
 import os
 from helper.gcs import *
 from helper.bq import *
+from helper.kaggle_download import *
 
 default_args = {
     'owner': 'Aulia Lionar',
@@ -48,18 +49,31 @@ pipeline_start = DummyOperator(
 
 # Download data from Kaggle dataset
 ## https://www.kaggle.com/edgartanaka1/tmdb-movies-and-series
-download_data = BashOperator(
-    task_id="download_dataset",
+download_dataset = PythonOperator(
+    task_id='download_dataset',
     dag=dag,
-    bash_command=f"cd {airflow_home} && export KAGGLE_USERNAME={kaggle_username} && export KAGGLE_KEY={kaggle_api_key} && cd dataset && kaggle datasets download -d edgartanaka1/tmdb-movies-and-series"
+    python_callable=kaggle_download_dataset,
+    op_kwargs={
+        'dataset_name': 'edgartanaka1/tmdb-movies-and-series',
+        'dl_path': f'{airflow_home}/dataset',
+        'file_name': 'tmdb-movies-and-series.zip'
+        'username': kaggle_username,
+        'api_key': kaggle_api_key
+    }
 )
 
-## Unzip dataset file
-unzip_dataset = BashOperator(
-    task_id="unzip_dataset",
-    dag=dag,
-    bash_command=f"cd {airflow_home}/dataset && unzip ./tmdb-movies-and-series.zip 'movies/movies*'"
-)
+# download_data = BashOperator(
+#     task_id="download_dataset",
+#     dag=dag,
+#     bash_command=f"cd {airflow_home} && export KAGGLE_USERNAME={kaggle_username} && export KAGGLE_KEY={kaggle_api_key} && cd dataset && kaggle datasets download -d edgartanaka1/tmdb-movies-and-series"
+# )
+
+# ## Unzip dataset file
+# unzip_dataset = BashOperator(
+#     task_id="unzip_dataset",
+#     dag=dag,
+#     bash_command=f"cd {airflow_home}/dataset && unzip ./tmdb-movies-and-series.zip 'movies/movies*'"
+# )
 
 ## Delete dataset zip file
 delete_zip_dataset = BashOperator(
