@@ -12,7 +12,7 @@ def kaggle_auth():
 
 def kaggle_download_dataset(dataset_name, dl_path, file_name):
     print(f"Downloading {dataset_name} from Kaggle")
-    api = kaggle_auth(username, api_key)
+    api = kaggle_auth()
     try:
         api.dataset_download_files(dataset=dataset_name, file_name=file_name, unzip=True)
         print(f"Download dataset {dataset_name}: Done")
