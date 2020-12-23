@@ -12,9 +12,10 @@ def kaggle_auth():
 
 def kaggle_download_dataset(dataset_name, dl_path, file_name):
     print(f"Downloading {dataset_name} from Kaggle")
-    api = kaggle_auth()
+    kg_api = kaggle_auth()
+    kg_api.authenticate()
     try:
-        api.dataset_download_files(dataset=dataset_name, file_name=file_name, unzip=True)
+        kg_api.dataset_download_files(dataset=dataset_name, file_name=file_name, unzip=True)
         print(f"Download dataset {dataset_name}: Done")
     except Exception as e:
         print(f"error: {e}")
