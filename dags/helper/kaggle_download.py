@@ -18,4 +18,4 @@ def kaggle_download_dataset(dataset_name, dl_path):
         kg_api.dataset_download_files(dataset_name, path=dl_path, unzip=True, quiet=False)
         print(f"Download dataset {dataset_name}: Done")
     except Exception as e:
-        print(f"error: {e}")
+        raise Exception(f"error: {e}")
