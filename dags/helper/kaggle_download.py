@@ -5,8 +5,8 @@ airflow_home = "/usr/local/airflow"
 file_name = 'tmdb-movies-and-series.zip'
 
 def kaggle_auth(username, api_key):
-    os.environ["KAGGLE_USERNAME"] = username
-    os.environ["KAGGLE_KEY"] = api_key
+    # os.environ["KAGGLE_USERNAME"] = username
+    # os.environ["KAGGLE_KEY"] = api_key
 
     api = KaggleApi()
     api.authenticate()

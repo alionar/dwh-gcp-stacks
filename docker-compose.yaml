@@ -9,6 +9,7 @@ x-airflow-service: &airflow-service
     - ./dataset:/usr/local/airflow/dataset
     - ./creds:/usr/local/airflow/creds
     - ./requirements.txt:/requirements.txt
+    - ./creds/kaggle.json:/usr/local/airflow/.kaggle/kaggle.json
   restart: always
   environment:
     - LOAD_EX=n
