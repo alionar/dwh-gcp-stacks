@@ -4,10 +4,11 @@ import random
 import os
 
 # VARIABLE TEST
+airflow_home = '/usr/local/airflow'
 bucket_name = 'stockbit_test'
-creds_file = './creds/gcs_client_secret.json'
+creds_file = f'{airflow_home}/creds/gcs_client_secret.json'
 bucket_location = "ASIA-SOUTHEAST2"
-dataset_folder = './dataset/movies/movies/*.json'
+dataset_folder = f'{airflow_home}/dataset/movies/movies/*.json'
 bucket_folder = 'movies'
 
 

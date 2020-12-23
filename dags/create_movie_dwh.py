@@ -21,15 +21,17 @@ default_args = {
 }
 
 # VARIABLE
+airflow_home = '/usr/local/airflow'
 project_id = 'certain-region-299014'
 dataset = 'stockbit_test'
 gs_bucket = 'stockbit_test'
 bucket_name = 'stockbit_test'
 bucket_location = 'ASIA-SOUTHEAST2'
 bucket_folder = 'movies'
-dataset_folder = './dataset/movies/movies/*.json'
+dataset_folder = f'{airflow_home}/dataset/movies/movies/*.json'
 kaggle_username = Variable.get('kaggle_username')
 kaggle_api_key = Variable.get('kaggle_api_key')
+
 
 # Initiate DAG
 dag = DAG(
@@ -49,21 +51,21 @@ pipeline_start = DummyOperator(
 download_data = BashOperator(
     task_id="download_dataset",
     dag=dag,
-    bash_command=f"export KAGGLE_USERNAME={kaggle_username} && export KAGGLE_KEY={kaggle_api_key} && cd dataset && kaggle datasets download -d edgartanaka1/tmdb-movies-and-series"
+    bash_command=f"cd {airflow_home} && export KAGGLE_USERNAME={kaggle_username} && export KAGGLE_KEY={kaggle_api_key} && cd dataset && kaggle datasets download -d edgartanaka1/tmdb-movies-and-series"
 )
 
 ## Unzip dataset file
 unzip_dataset = BashOperator(
     task_id="unzip_dataset",
     dag=dag,
-    bash_command="cd ./dataset && unzip ./tmdb-movies-and-series.zip 'movies/movies*'"
+    bash_command=f"cd {airflow_home}/dataset && unzip ./tmdb-movies-and-series.zip 'movies/movies*'"
 )
 
 ## Delete dataset zip file
 delete_zip_dataset = BashOperator(
     task_id='delete_zip_dataset',
     dag=dag,
-    bash_command="cd ./dataset && rm -rf tmdb-movies-and-series.zip"
+    bash_command=f"cd {airflow_home}/dataset && rm -rf tmdb-movies-and-series.zip"
 )
 
 # Upload selected dataset to GCS
@@ -135,7 +137,7 @@ load_from_gcs_to_bq = PythonOperator(
         'project_id': project_id,
         'bq_dataset': dataset,
         'table_name': 'raw_movies',
-        'bq_schema': './dataset/movies_schema.json',
+        'bq_schema': f'{airflow_home}/dataset/movies_schema.json',
         'bucket_name': bucket_name,
         'bucket_folder': bucket_folder
     }
@@ -162,7 +164,7 @@ create_movies_media = BigQueryOperator(
     dag=dag,
     use_legacy_sql = False,
     location='asia-southeast2',
-    sql='./sql/create_movies_media.sql',
+    sql=f'{airflow_home}/sql/create_movies_media.sql',
     bigquery_conn_id='bigquery_default'
 )
 
@@ -179,7 +181,7 @@ create_movies_collection_lists = BigQueryOperator(
     dag=dag,
     use_legacy_sql = False,
     location='asia-southeast2',
-    sql='./sql/create_movies_collection_lists.sql',
+    sql=f'{airflow_home}/sql/create_movies_collection_lists.sql',
     bigquery_conn_id='bigquery_default'
 )
 
@@ -196,7 +198,7 @@ create_movies_genres = BigQueryOperator(
     dag=dag,
     use_legacy_sql = False,
     location='asia-southeast2',
-    sql='./sql/create_movies_genres.sql',
+    sql=f'{airflow_home}/sql/create_movies_genres.sql',
     bigquery_conn_id='bigquery_default'
 )
 
@@ -213,7 +215,7 @@ create_movies_fav_by_genre = BigQueryOperator(
     dag=dag,
     use_legacy_sql = False,
     location='asia-southeast2',
-    sql='./sql/create_movies_most_fav_by_genre.sql',
+    sql=f'{airflow_home}/sql/create_movies_most_fav_by_genre.sql',
     bigquery_conn_id='bigquery_default'
 )
 
@@ -230,7 +232,7 @@ create_movies_fav_per_year = BigQueryOperator(
     dag=dag,
     use_legacy_sql=False,
     location='asia-southeast2',
-    sql='./sql/create_movies_most_fav_per_year.sql',
+    sql=f'{airflow_home}/sql/create_movies_most_fav_per_year.sql',
     bigquery_conn_id='bigquery_default'
 )
 
@@ -247,7 +249,7 @@ create_popular_movies_by_genre = BigQueryOperator(
     dag=dag,
     use_legacy_sql=False,
     location='asia-southeast2',
-    sql='./sql/create_movies_popular_movie_by_genre.sql',
+    sql=f'{airflow_home}/sql/create_movies_popular_movie_by_genre.sql',
     bigquery_conn_id='bigquery_default'
 )
 
@@ -264,7 +266,7 @@ create_popular_movies_per_year = BigQueryOperator(
     dag=dag,
     use_legacy_sql=False,
     location='asia-southeast2',
-    sql='./sql/create_movies_popular_released_per_year.sql',
+    sql=f'{airflow_home}/sql/create_movies_popular_released_per_year.sql',
     bigquery_conn_id='bigquery_default'
 )
 
@@ -281,7 +283,7 @@ create_movies_production_countries = BigQueryOperator(
     dag=dag,
     use_legacy_sql=False,
     location='asia-southeast2',
-    sql='./sql/create_movies_production_countries.sql',
+    sql=f'{airflow_home}/sql/create_movies_production_countries.sql',
     bigquery_conn_id='bigquery_default'
 )
 
@@ -298,7 +300,7 @@ create_movies_spoken_languages = BigQueryOperator(
     dag=dag,
     use_legacy_sql=False,
     location='asia-southeast2',
-    sql='./sql/create_movies_spoken_languages.sql',
+    sql=f'{airflow_home}/sql/create_movies_spoken_languages.sql',
     bigquery_conn_id='bigquery_default'
 )
 
@@ -315,7 +317,7 @@ create_production_companies_portofolio = BigQueryOperator(
     dag=dag,
     use_legacy_sql=False,
     location='asia-southeast2',
-    sql='./sql/create_production_companies_portofolio.sql',
+    sql=f'{airflow_home}/sql/create_production_companies_portofolio.sql',
     bigquery_conn_id='bigquery_default'
 )
 
@@ -331,7 +333,7 @@ check_production_companies_portofolio = BigQueryOperator(
 delete_local_dataset = BashOperator(
     task_id='delete_local_dataset',
     dag=dag,
-    bash_command = 'rm -rf ./dataset/movies'
+    bash_command=f'rm -rf {airflow_home}/dataset/movies'
 )
 
 pipeline_end = DummyOperator(

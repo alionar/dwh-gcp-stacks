@@ -5,13 +5,14 @@ from helper.gcs import gcs_client
 import os
 
 # VARIABLE TEST
-bq_creds_file = './creds/gcs_bq_client_secret.json'
+airflow_home = '/usr/local/airflow'
+bq_creds_file = f'{airflow_home}/creds/gcs_bq_client_secret.json'
 bucket_name = 'stockbit_test'
 bucket_folder = 'movies'
 bucket_location = "ASIA-SOUTHEAST2"
 project_id = 'certain-region-299014'
 bq_dataset = 'stockbit_test'
-bq_schema = './dataset/movies_schema.json'
+bq_schema = f'{airflow_home}/dataset/movies_schema.json'
 table_name = 'raw_movies'
 
 def bq_client(creds_file=bq_creds_file):
