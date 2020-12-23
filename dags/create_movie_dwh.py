@@ -49,7 +49,7 @@ pipeline_start = DummyOperator(
 download_data = BashOperator(
     task_id="download_dataset",
     dag=dag,
-    bash_command=f"export KAGGLE_USERNAME={kaggle_username} && export KAGGLE_KEY={kaggle_api_key} && cd ./dataset && kaggle datasets download -d edgartanaka1/tmdb-movies-and-series"
+    bash_command=f"export KAGGLE_USERNAME={kaggle_username} && export KAGGLE_KEY={kaggle_api_key} && cd dataset && kaggle datasets download -d edgartanaka1/tmdb-movies-and-series"
 )
 
 ## Unzip dataset file
