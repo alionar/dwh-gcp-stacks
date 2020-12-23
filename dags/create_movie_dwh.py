@@ -59,18 +59,12 @@ download_dataset = PythonOperator(
     }
 )
 
-# download_data = BashOperator(
-#     task_id="download_dataset",
-#     dag=dag,
-#     bash_command=f"cd {airflow_home} && export KAGGLE_USERNAME={kaggle_username} && export KAGGLE_KEY={kaggle_api_key} && cd dataset && kaggle datasets download -d edgartanaka1/tmdb-movies-and-series"
-# )
-
-# ## Unzip dataset file
-# unzip_dataset = BashOperator(
-#     task_id="unzip_dataset",
-#     dag=dag,
-#     bash_command=f"cd {airflow_home}/dataset && unzip ./tmdb-movies-and-series.zip 'movies/movies*'"
-# )
+## Delete unused dataset
+delete_non_dataset = BashOperator(
+    task_id="delete_non_dataset",
+    dag=dag,
+    bash_command=f"cd {airflow_home}/dataset && rm -rf series"
+)
 
 ## Delete dataset zip file
 delete_zip_dataset = BashOperator(
@@ -353,7 +347,7 @@ pipeline_end = DummyOperator(
 )
 
 # Task Depedencies
-pipeline_start >> download_data >> unzip_dataset >> delete_zip_dataset >> upload_data_to_gcs
+pipeline_start >> download_dataset >> delete_non_dataset >> delete_zip_dataset >> upload_data_to_gcs
 
 upload_data_to_gcs >> create_gcs_bucket >> upload_ds_to_gcs >> check_uploaded_file_in_gcs >> upload_gcs_to_bq
 
