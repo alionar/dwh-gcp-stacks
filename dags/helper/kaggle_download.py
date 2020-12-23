@@ -1,5 +1,5 @@
 import os
-from kaggle.api_api_extended import KaggleApi
+from kaggle.api.kaggle_api_extended import KaggleApi
 
 airflow_home = "/usr/local/airflow"
 file_name = 'tmdb-movies-and-series.zip'
