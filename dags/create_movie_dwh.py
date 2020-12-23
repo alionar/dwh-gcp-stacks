@@ -51,11 +51,11 @@ pipeline_start = DummyOperator(
 ## https://www.kaggle.com/edgartanaka1/tmdb-movies-and-series
 
 ## Create kaggle creds for user airflow
-create_kaggle_creds = BashOperator(
-    task_id="create_kaggle_creds",
-    dag=dag,
-    bash_command=f"cd {airflow_home} && mkdir {airflow_home}/.kaggle && cat {airflow_home}/creds/kaggle.json > {airflow_home}/.kaggle/kaggle.json && chmod 600 {airflow_home}/.kaggle/kaggle.json'
-)
+# create_kaggle_creds = BashOperator(
+#     task_id="create_kaggle_creds",
+#     dag=dag,
+#     bash_command=f"cd {airflow_home} && mkdir {airflow_home}/.kaggle && cat {airflow_home}/creds/kaggle.json > {airflow_home}/.kaggle/kaggle.json && chmod 600 {airflow_home}/.kaggle/kaggle.json"
+# )
 
 download_dataset = PythonOperator(
     task_id='download_dataset',
@@ -355,7 +355,7 @@ pipeline_end = DummyOperator(
 )
 
 # Task Depedencies
-pipeline_start >> create_kaggle_creds >> download_dataset >> delete_non_dataset >> delete_zip_dataset >> upload_data_to_gcs
+pipeline_start >>  download_dataset >> delete_non_dataset >> delete_zip_dataset >> upload_data_to_gcs
 
 upload_data_to_gcs >> create_gcs_bucket >> upload_ds_to_gcs >> check_uploaded_file_in_gcs >> upload_gcs_to_bq
 
