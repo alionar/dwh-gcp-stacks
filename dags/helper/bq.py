@@ -1,7 +1,7 @@
 from google.cloud import bigquery
 from google.cloud import storage
 from google.oauth2 import service_account
-from scripts.gcs import gcs_client
+from helper.gcs import gcs_client
 import os
 
 # VARIABLE TEST

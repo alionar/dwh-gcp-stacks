@@ -6,25 +6,32 @@ from airflow.operators.bash_operator import BashOperator
 from airflow.operators import PythonOperator
 from airflow.models import Variable
 from datetime import datetime, timedelta
-from scripts.gcs import *
-from scripts.bq import *
 import os
+from helper.gcs import *
+from helper.bq import *
 
 default_args = {
     'owner': 'Aulia Lionar',
     'depends_on_past': False,
     'email_on_failure': False,
     'email_on_retry': False,
+    'start_date': datetime(2020,12,22),
     'retries': 2,
     'retry_delay': timedelta(minutes=5)
 }
 
+# VARIABLE
 project_id = 'certain-region-299014'
 dataset = 'stockbit_test'
 gs_bucket = 'stockbit_test'
+bucket_name = 'stockbit_test'
+bucket_location = 'ASIA-SOUTHEAST2'
+bucket_folder = 'movies'
+dataset_folder = './dataset/movies/movies/*.json'
 kaggle_username = Variable.get('kaggle_username')
 kaggle_api_key = Variable.get('kaggle_api_key')
 
+# Initiate DAG
 dag = DAG(
     'create_movie_dwh',
     default_args=default_args,
@@ -64,12 +71,6 @@ upload_data_to_gcs = DummyOperator(
     task_id="upload_data_to_gcs",
     dag=dag
 )
-
-bucket_name = 'stockbit_test'
-bucket_location = 'ASIA-SOUTHEAST2'
-bucket_folder = 'movies'
-dataset_folder = './dataset/movies/movies/*.json'
-
 
 ## Create bucket for dataset in GCS
 create_gcs_bucket = PythonOperator(
@@ -113,6 +114,7 @@ upload_gcs_to_bq = DummyOperator(
     dag=dag
 )
 
+## Create Dataset in BQ
 create_dataset = PythonOperator(
     task_id='create_dataset',
     dag=dag,
@@ -124,6 +126,7 @@ create_dataset = PythonOperator(
     }
 )
 
+## Load dataset from GCS to BQ as raw_movie table
 load_from_gcs_to_bq = PythonOperator(
     task_id='load_from_gcs_to_bq',
     dag=dag,
@@ -138,6 +141,7 @@ load_from_gcs_to_bq = PythonOperator(
     }
 )
 
+## Check if raw_table is exists and containts dataset from GCS
 check_raw_movies = BigQueryCheckOperator(
     task_id='check_raw_movies',
     dag=dag,
