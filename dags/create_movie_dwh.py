@@ -30,8 +30,8 @@ bucket_name = 'stockbit_test'
 bucket_location = 'ASIA-SOUTHEAST2'
 bucket_folder = 'movies'
 dataset_folder = f'{airflow_home}/dataset/movies/movies/*.json'
-kaggle_username = Variable.get('kaggle_username')
-kaggle_api_key = Variable.get('kaggle_api_key')
+os.environ["KAGGLE_USERNAME"] = Variable.get('kaggle_username')
+os.environ["KAGGLE_KEY"] = Variable.get('kaggle_api_key')
 
 
 # Initiate DAG
