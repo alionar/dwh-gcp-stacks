@@ -41,7 +41,7 @@ def bq_create_dataset(project_id, bq_dataset, bucket_location):
         print(f"Created dataset {client.project}.{dataset.dataset_id}")
 
     except Exception as e:
-        print(f"error: {e}")
+        raise Exception(f"error: {e}")
 
 
 def bq_load_from_gcs(project_id, bq_dataset, table_name, bq_schema, bucket_name, bucket_folder):
@@ -72,5 +72,5 @@ def bq_load_from_gcs(project_id, bq_dataset, table_name, bq_schema, bucket_name,
         destination_table = client.get_table(table_id)
         print(f"Table {table_name} loaded: {destination_table.num_rows}")
     except Exception as e:
-        print(f"error: {e}")
+        raise Exception(f"error: {e}")
 

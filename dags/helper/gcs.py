@@ -33,31 +33,35 @@ def gcs_create_bucket(bucket_name=bucket_name, bucket_location=bucket_location):
 
         print(f"Successfully created new bucket {new_bucket.name} in {new_bucket.location}")
     except Exception as e:
-        print(f"error: {e}")
+        raise Exception(f"error: {e}")
 
 
 def gcs_upload_dataset_to_bucket(bucket_name=bucket_name, bucket_folder=bucket_folder, dataset_folder=dataset_folder, n_files=2000):
     print(f'Select json files to upload as dataset: {n_files} files')
+    all_
     json_files = random.sample(glob.glob(dataset_folder), n_files)
 
-    print(f'Delete another json files: {len(os.listdir(dataset_folder))-n_files} files')
-    for filename in os.listdir(dataset_folder):
-        if filename not in json_files:
-            os.remove(filename)
+    if len(json_files) > 0:
+        print(f'Delete another json files: {len(os.listdir(dataset_folder))-n_files} files')
+        for filename in os.listdir(dataset_folder):
+            if filename not in json_files:
+                os.remove(filename)
 
-    print(f"There're {len(json_files)} files ready to upload to GCS")
-    print(f'Get bucket: {bucket_name}')
-    try:
-        client = gcs_client(creds_file=creds_file)
-        bucket = client.get_bucket(bucket_name)
+        print(f"There're {len(json_files)} files ready to upload to GCS")
+        print(f'Get bucket: {bucket_name}')
+        try:
+            client = gcs_client(creds_file=creds_file)
+            bucket = client.get_bucket(bucket_name)
 
-        print(f'Uploading json files to "{bucket_name}" bucket')
-        for js in json_files:
-            blob = bucket.blob(f"{bucket_folder}/{os.path.basename(js)}")
-            blob.upload_from_filename(js)
-        print("Upload: Done")
-    except Exception as e:
-        print(f"error: {e}")
+            print(f'Uploading json files to "{bucket_name}" bucket')
+            for js in json_files:
+                blob = bucket.blob(f"{bucket_folder}/{os.path.basename(js)}")
+                blob.upload_from_filename(js)
+            print("Upload: Done")
+        except Exception as e:
+            raise Exception(f"error: {e}")
+    else:
+        raise Exception('No dataset to upload')
 
 
 def gcs_check_files(dataset_folder, bucket_name, bucket_folder):
@@ -74,4 +78,4 @@ def gcs_check_files(dataset_folder, bucket_name, bucket_folder):
         else:
             raise Exception(f"Checking upload result: failed\nReason: Different files count (in bucket: {count_bucket_files}, in dataset: {count_ds_files})")
     except Exception as e:
-        print(f"error: {e}")
+        raise Exception(f"error: {e}")
