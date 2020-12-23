@@ -1,0 +1,5 @@
+apache-airflow[google]==1.10.9
+kaggle==1.5.10
+google-cloud-storage==1.35.0
+google-cloud-bigquery==2.6.1
+google-auth==1.24.0
