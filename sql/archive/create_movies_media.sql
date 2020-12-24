@@ -1,3 +1,4 @@
+create table if not exists stockbit_test1.movies_media as
 select
   id as movie_id,
   imdb_id, 

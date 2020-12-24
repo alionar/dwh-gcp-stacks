@@ -1,3 +1,4 @@
+create table stockbit_test1.movies_popular_movie_by_genre as
 with pop_genre1 as (
   select
     g.name as genres,

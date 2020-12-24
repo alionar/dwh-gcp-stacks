@@ -1,25 +1,27 @@
-with pop_movie1 as (
+create table stockbit_test1.movies_most_fav_per_year as
+with vote_movie1 as (
   select 
     rw2.id as movie_id, 
     EXTRACT(ISOYEAR FROM rw2.release_date) as year, 
-    rw2.popularity as popularity
+    rw2.vote_average as vote_avg
   from stockbit_test1.raw_movies rw2
   where rw2.status = 'Released'
   group by 1,2,3
 )
-, pop_movie2 as (
+, vote_movie2 as (
   select 
     p1.year, 
-    ARRAY_AGG(STRUCT(p1.movie_id, p1.popularity) ORDER BY p1.popularity DESC LIMIT 1) AS popular
-  from pop_movie1 p1
+    ARRAY_AGG(STRUCT(p1.movie_id, p1.vote_avg) ORDER BY p1.vote_avg DESC LIMIT 1) AS vote
+  from vote_movie1 p1
   where year is not null
   group by 1
 )
-, pop_movie3 as(
-  select year, pp.movie_id, pp.popularity
-  from pop_movie2 pm2, unnest(pm2.popular) pp
+, vote_movie3 as(
+  select year, pv.movie_id, pv.vote_avg
+  from vote_movie2 pm2, unnest(pm2.vote) pv
   order by 1 desc
 )
+-- select * from vote_movie3
 , etc_att as (
   select 
     a.id as movie_id,
@@ -80,7 +82,8 @@ select
   pm3.year,
   pm3.movie_id,
   t.title as movie_title,
-  pm3.popularity as movie_popularity,
+  pm3.vote_avg as movie_vote_avg,
+  t.vote_count,
   t.release_date,
   t.movie_country,
   t.genre_name,
@@ -88,9 +91,7 @@ select
   t.budget,
   t.revenue,
   t.runtime,
-  t.overview,
-  t.vote_average,
-  t.vote_count
-from pop_movie3 pm3
+  t.overview
+from vote_movie3 pm3
 left join main_table t on pm3.movie_id = t.movie_id
 order by 1 desc;

@@ -183,6 +183,9 @@ create_movies_media = BigQueryOperator(
     use_legacy_sql = False,
     location='asia-southeast2',
     sql=f'{airflow_home}/sql/create_movies_media.sql ',
+    destination_dataset_table=f'{project_id}.{bq_dataset}.movies_media',
+    write_disposition='WRITE_TRUNCATE',
+    create_disposition='CREATE_IF_NEEDED',
     bigquery_conn_id='bigquery_default'
 )
 
@@ -201,6 +204,9 @@ create_movies_collection_lists = BigQueryOperator(
     use_legacy_sql = False,
     location='asia-southeast2',
     sql=f'{airflow_home}/sql/create_movies_collection_lists.sql ',
+    destination_dataset_table=f'{project_id}.{bq_dataset}.movies_collection_lists',
+    write_disposition='WRITE_TRUNCATE',
+    create_disposition='CREATE_IF_NEEDED',
     bigquery_conn_id='bigquery_default'
 )
 
@@ -219,6 +225,9 @@ create_movies_genres = BigQueryOperator(
     use_legacy_sql = False,
     location='asia-southeast2',
     sql=f'{airflow_home}/sql/create_movies_genres.sql ',
+    destination_dataset_table=f'{project_id}.{bq_dataset}.movies_genres',
+    write_disposition='WRITE_TRUNCATE',
+    create_disposition='CREATE_IF_NEEDED',
     bigquery_conn_id='bigquery_default'
 )
 
@@ -237,6 +246,9 @@ create_movies_fav_by_genre = BigQueryOperator(
     use_legacy_sql = False,
     location='asia-southeast2',
     sql=f'{airflow_home}/sql/create_movies_most_fav_by_genre.sql ',
+    destination_dataset_table=f'{project_id}.{bq_dataset}.movies_most_fav_by_genre',
+    write_disposition='WRITE_TRUNCATE',
+    create_disposition='CREATE_IF_NEEDED',
     bigquery_conn_id='bigquery_default'
 )
 
@@ -255,6 +267,9 @@ create_movies_fav_per_year = BigQueryOperator(
     use_legacy_sql=False,
     location='asia-southeast2',
     sql=f'{airflow_home}/sql/create_movies_most_fav_per_year.sql ',
+    destination_dataset_table=f'{project_id}.{bq_dataset}.movies_most_fav_per_year',
+    write_disposition='WRITE_TRUNCATE',
+    create_disposition='CREATE_IF_NEEDED',
     bigquery_conn_id='bigquery_default'
 )
 
@@ -273,6 +288,9 @@ create_popular_movies_by_genre = BigQueryOperator(
     use_legacy_sql=False,
     location='asia-southeast2',
     sql=f'{airflow_home}/sql/create_movies_popular_movie_by_genre.sql ',
+    destination_dataset_table=f'{project_id}.{bq_dataset}.movies_popular_movie_by_genre',
+    write_disposition='WRITE_TRUNCATE',
+    create_disposition='CREATE_IF_NEEDED',
     bigquery_conn_id='bigquery_default'
 )
 
@@ -291,6 +309,9 @@ create_popular_movies_per_year = BigQueryOperator(
     use_legacy_sql=False,
     location='asia-southeast2',
     sql=f'{airflow_home}/sql/create_movies_popular_released_per_year.sql ',
+    destination_dataset_table=f'{project_id}.{bq_dataset}.movies_popular_released_per_yea',
+    write_disposition='WRITE_TRUNCATE',
+    create_disposition='CREATE_IF_NEEDED',
     bigquery_conn_id='bigquery_default'
 )
 
@@ -309,6 +330,9 @@ create_movies_production_countries = BigQueryOperator(
     use_legacy_sql=False,
     location='asia-southeast2',
     sql=f'{airflow_home}/sql/create_movies_production_countries.sql ',
+    destination_dataset_table=f'{project_id}.{bq_dataset}.movies_production_countries',
+    write_disposition='WRITE_TRUNCATE',
+    create_disposition='CREATE_IF_NEEDED',
     bigquery_conn_id='bigquery_default'
 )
 
@@ -327,6 +351,9 @@ create_movies_spoken_languages = BigQueryOperator(
     use_legacy_sql=False,
     location='asia-southeast2',
     sql=f'{airflow_home}/sql/create_movies_spoken_languages.sql ',
+    destination_dataset_table=f'{project_id}.{bq_dataset}.movies_spoken_language',
+    write_disposition='WRITE_TRUNCATE',
+    create_disposition='CREATE_IF_NEEDED',
     bigquery_conn_id='bigquery_default'
 )
 
@@ -345,6 +372,9 @@ create_production_companies_portofolio = BigQueryOperator(
     use_legacy_sql=False,
     location='asia-southeast2',
     sql=f'{airflow_home}/sql/create_production_companies_portofolio.sql ',
+    destination_dataset_table=f'{project_id}.{bq_dataset}.production_companies_portofolio',
+    write_disposition='WRITE_TRUNCATE',
+    create_disposition='CREATE_IF_NEEDED',
     bigquery_conn_id='bigquery_default'
 )
 

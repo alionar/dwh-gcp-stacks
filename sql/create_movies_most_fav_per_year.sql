@@ -1,4 +1,3 @@
-create table stockbit_test1.movies_most_fav_per_year as
 with vote_movie1 as (
   select 
     rw2.id as movie_id, 

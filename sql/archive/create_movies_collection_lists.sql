@@ -1,3 +1,4 @@
+create table stockbit_test1.movies_collection_lists as
 with mov_coll as(
  select 
   bc.id as collection_id,

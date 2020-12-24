@@ -1,4 +1,3 @@
-create table stockbit_test1.movies_most_fav_by_genre as
 with vote_genre1 as (
   select
     g.name as genres,

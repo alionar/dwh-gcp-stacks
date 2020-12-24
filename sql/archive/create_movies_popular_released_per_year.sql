@@ -1,3 +1,4 @@
+create table stockbit_test1.movies_popular_released_per_year as
 with pop_movie1 as (
   select 
     rw2.id as movie_id, 

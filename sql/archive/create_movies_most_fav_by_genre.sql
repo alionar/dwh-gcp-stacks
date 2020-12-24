@@ -1,28 +1,30 @@
-with pop_genre1 as (
+create table stockbit_test1.movies_most_fav_by_genre as
+with vote_genre1 as (
   select
     g.name as genres,
-    array_agg(struct(rm1.id, rm1.popularity) order by rm1.popularity desc limit 1) as popular
+    array_agg(struct(rm1.id, rm1.vote_average) order by rm1.vote_average desc limit 1) as vote
   from
     stockbit_test1.raw_movies rm1, unnest(genres) g
   group by 1
 )
-, pop_genre2 as (
+, vote_genre2 as (
   select 
     pg1.genres,
     p.id as movie_id,
-    p.popularity as movie_popularity
+    p.vote_average as movie_vote_avg
   from
-    pop_genre1 pg1,
-    unnest(pg1.popular) p
+    vote_genre1 pg1,
+    unnest(pg1.vote) p
 )
 , main_att as (
   select 
     rm2.id as movie_id,
     rm2.title as movie_title,
-    EXTRACT(ISOYEAR FROM rm2.release_date) as year
+    EXTRACT(ISOYEAR FROM rm2.release_date) as year,
+    rm2.vote_count
   from
     stockbit_test1.raw_movies rm2
-  group by 1,2,3
+  group by 1,2,3,4
 )
 , etc_att as (
   select 
@@ -39,6 +41,7 @@ with pop_genre1 as (
   select
     x.movie_id,
     x.movie_title,
+    x.vote_count,
     x.year,
     case
       when y.movie_country is null then null
@@ -57,8 +60,9 @@ select
   pg2.movie_id, 
   t.year, 
   t.movie_country[OFFSET(0)] as movie_country,
-  pg2.movie_popularity
+  pg2.movie_vote_avg,
+  t.vote_count
 from 
-  pop_genre2 pg2
+  vote_genre2 pg2
 left join main_table t on pg2.movie_id = t.movie_id
 order by 3 desc;

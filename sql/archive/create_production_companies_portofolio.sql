@@ -1,3 +1,4 @@
+create table stockbit_test1.production_companies_portofolio as
 select 
   pc.id as ph_id,
   pc.name as ph_name,
