@@ -1,4 +1,3 @@
-#standardSQL
 select
   id as movie_id,
   imdb_id, 

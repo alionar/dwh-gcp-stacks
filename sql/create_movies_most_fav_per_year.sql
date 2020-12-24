@@ -1,4 +1,3 @@
-#standardSQL
 with vote_movie1 as (
   select 
     rw2.id as movie_id, 
