@@ -7,11 +7,11 @@ import os
 # VARIABLE TEST
 airflow_home = '/usr/local/airflow'
 bq_creds_file = f'{airflow_home}/creds/gcs_bq_client_secret.json'
-bucket_name = 'stockbit_test'
+bucket_name = 'stockbit_test1'
 bucket_folder = 'movies'
 bucket_location = "ASIA-SOUTHEAST2"
 project_id = 'certain-region-299014'
-bq_dataset = 'stockbit_test'
+bq_dataset = 'stockbit_test1'
 bq_schema = f'{airflow_home}/dataset/movies_schema.json'
 table_name = 'raw_movies'
 
@@ -56,19 +56,27 @@ def bq_load_from_gcs(project_id, bq_dataset, table_name, bq_schema, bucket_name,
             source_format=bigquery.SourceFormat.NEWLINE_DELIMITED_JSON,
         )
 
-        bucket_client = gcs_client(creds_file='./creds/gcs_client_secret.json')
-        bucket = bucket_client.get_bucket(bucket_name)
+        # bucket_client = gcs_client(creds_file='./creds/gcs_client_secret.json')
+        # bucket = bucket_client.get_bucket(bucket_name)
         
-        for blob in bucket.list_blobs(prefix=bucket_folder):
-            uri = f"gs://{bucket_name}/{blob.name}"
+        uri = f"gs://{bucket_name}/{bucket_folder}/*"
+        load_job = client.load_table_from_uri(
+            uri,
+            table_id,
+            location = bucket_location,
+            job_config=job_config
+        )
+        load_job.result()
+        # for blob in bucket.list_blobs(prefix=bucket_folder):
+        #     uri = f"gs://{bucket_name}/{blob.name}"
 
-            load_job = client.load_table_from_uri(
-                uri,
-                table_id,
-                location = bucket_location,
-                job_config=job_config
-            )
-            load_job.result()
+        #     load_job = client.load_table_from_uri(
+        #         uri,
+        #         table_id,
+        #         location = bucket_location,
+        #         job_config=job_config
+        #     )
+        #     load_job.result()
         destination_table = client.get_table(table_id)
         print(f"Table {table_name} loaded: {destination_table.num_rows}")
     except Exception as e:
