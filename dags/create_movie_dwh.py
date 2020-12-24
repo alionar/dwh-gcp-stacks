@@ -1,6 +1,8 @@
 from airflow import DAG
-from airflow.contrib.operators.bigquery_operator import BigQueryOperator
-from airflow.contrib.operators.bigquery_check_operator import BigQueryCheckOperator
+# from airflow.contrib.operators.bigquery_operator import BigQueryOperator
+# from airflow.contrib.operators.bigquery_check_operator import BigQueryCheckOperator
+from helper.bigquery_check_operator import BigQueryCheckOperator
+from helper.bigquery_operator import BigQueryOperator
 from airflow.operators.dummy_operator import DummyOperator
 from airflow.operators.bash_operator import BashOperator
 from airflow.operators import PythonOperator
@@ -191,6 +193,7 @@ check_movies_media = BigQueryCheckOperator(
     task_id='check_movies_media',
     dag=dag,
     use_legacy_sql=False,
+    location='asia-southeast2',
     sql=f'SELECT count(*) = count(distinct movie_id) FROM {project_id}.{bq_dataset}.movies_media',
     bigquery_conn_id='bigquery_default'
 )
@@ -211,6 +214,7 @@ check_movies_collection_lists = BigQueryCheckOperator(
     task_id='check_movies_collection_lists',
     dag=dag,
     use_legacy_sql=False,
+    location='asia-southeast2',
     sql=f'SELECT count(*) = count(distinct collection_id) FROM {project_id}.{bq_dataset}.movies_collection_lists',
     bigquery_conn_id='bigquery_default'
 )
@@ -231,6 +235,7 @@ check_movies_genres = BigQueryCheckOperator(
     task_id='check_movies_genres',
     dag=dag,
     use_legacy_sql=False,
+    location='asia-southeast2',
     sql=f'SELECT count(*) = count(distinct id) FROM {project_id}.{bq_dataset}.movies_genres',
     bigquery_conn_id='bigquery_default'
 )
@@ -251,6 +256,7 @@ check_movies_fav_by_genre = BigQueryCheckOperator(
     task_id='check_movies_fav_by_genres',
     dag=dag,
     use_legacy_sql=False,
+    location='asia-southeast2',
     sql=f'SELECT count(*) FROM {project_id}.{bq_dataset}.movies_most_fav_by_genre',
     bigquery_conn_id='bigquery_default'
 )
@@ -271,6 +277,7 @@ check_movies_fav_per_year = BigQueryCheckOperator(
     task_id='check_movies_fav_per_year',
     dag=dag,
     use_legacy_sql=False,
+    location='asia-southeast2',
     sql=f'SELECT count(*) FROM {project_id}.{bq_dataset}.movies_most_fav_per_year',
     bigquery_conn_id='bigquery_default'
 )
@@ -291,6 +298,7 @@ check_popular_movies_by_genre = BigQueryCheckOperator(
     task_id='check_popular_movies_by_genre',
     dag=dag,
     use_legacy_sql=False,
+    location='asia-southeast2',
     sql=f'SELECT count(*) FROM {project_id}.{bq_dataset}.movies_popular_movie_by_genre',
     bigquery_conn_id='bigquery_default'
 )
@@ -311,6 +319,7 @@ check_popular_movies_per_year = BigQueryOperator(
     task_id='check_popular_movies_per_year',
     dag=dag,
     use_legacy_sql=False,
+    location='asia-southeast2',
     sql=f'SELECT count(*) FROM {project_id}.{bq_dataset}.movies_popular_released_per_year',
     bigquery_conn_id='bigquery_default'
 )
@@ -331,6 +340,7 @@ check_movies_production_countries = BigQueryOperator(
     task_id='check_movies_production_countries',
     dag=dag,
     use_legacy_sql=False,
+    location='asia-southeast2',
     sql=f'SELECT count(*) FROM {project_id}.{bq_dataset}.movies_production_countries',
     bigquery_conn_id='bigquery_default'
 )
@@ -351,6 +361,7 @@ check_movies_spoken_languages = BigQueryOperator(
     task_id='check_movies_spoken_languages',
     dag=dag,
     use_legacy_sql=False,
+    location='asia-southeast2',
     sql=f'SELECT count(*) FROM {project_id}.{bq_dataset}.movies_spoken_language',
     bigquery_conn_id='bigquery_default'
 )
@@ -371,6 +382,7 @@ check_production_companies_portofolio = BigQueryOperator(
     task_id='check_production_companies_portofolio',
     dag=dag,
     use_legacy_sql=False,
+    location='asia-southeast2',
     sql=f'SELECT count(*) FROM {project_id}.{bq_dataset}.production_companies_portofolio',
     bigquery_conn_id='bigquery_default'
 )
