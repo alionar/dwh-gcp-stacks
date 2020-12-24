@@ -58,7 +58,8 @@ class BigQueryCheckOperator(CheckOperator):
 
     def get_db_hook(self):
         return BigQueryHook(bigquery_conn_id=self.bigquery_conn_id,
-                            use_legacy_sql=self.use_legacy_sql)
+                            use_legacy_sql=self.use_legacy_sql,
+                            location=self.location)
 
 
 class BigQueryValueCheckOperator(ValueCheckOperator):
@@ -134,4 +135,5 @@ class BigQueryIntervalCheckOperator(IntervalCheckOperator):
 
     def get_db_hook(self):
         return BigQueryHook(bigquery_conn_id=self.bigquery_conn_id,
-                            use_legacy_sql=self.use_legacy_sql)
+                            use_legacy_sql=self.use_legacy_sql,
+                            location=self.location)
