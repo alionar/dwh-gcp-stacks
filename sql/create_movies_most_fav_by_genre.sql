@@ -1,10 +1,10 @@
-create table stockbit_test.movies_most_fav_by_genre as
+create table stockbit_test1.movies_most_fav_by_genre as
 with vote_genre1 as (
   select
     g.name as genres,
     array_agg(struct(rm1.id, rm1.vote_average) order by rm1.vote_average desc limit 1) as vote
   from
-    stockbit_test.raw_movies rm1, unnest(genres) g
+    stockbit_test1.raw_movies rm1, unnest(genres) g
   group by 1
 )
 , vote_genre2 as (
@@ -23,7 +23,7 @@ with vote_genre1 as (
     EXTRACT(ISOYEAR FROM rm2.release_date) as year,
     rm2.vote_count
   from
-    stockbit_test.raw_movies rm2
+    stockbit_test1.raw_movies rm2
   group by 1,2,3,4
 )
 , etc_att as (
@@ -32,7 +32,7 @@ with vote_genre1 as (
     array_agg(distinct pct.name respect nulls) as movie_country,
     array_agg(distinct ph.name respect nulls) as ph_name
   from 
-    stockbit_test.raw_movies a,
+    stockbit_test1.raw_movies a,
     unnest(a.production_countries) pct,
     unnest(a.production_companies) ph
   group by 1

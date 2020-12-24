@@ -1,4 +1,4 @@
-create table if not exists stockbit_test.movies_media as
+create table if not exists stockbit_test1.movies_media as
 select
   id as movie_id,
   imdb_id, 
@@ -14,5 +14,5 @@ select
   end as backdrop_image_url,
   video
 from
-  stockbit_test.raw_movies rm
+  stockbit_test1.raw_movies rm
 order by 1

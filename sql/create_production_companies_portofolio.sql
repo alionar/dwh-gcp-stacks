@@ -1,4 +1,4 @@
-create table stockbit_test.production_companies_portofolio as
+create table stockbit_test1.production_companies_portofolio as
 select 
   pc.id as ph_id,
   pc.name as ph_name,
@@ -9,7 +9,7 @@ select
   sum(revenue) as ph_total_revenue,
   sum(budget) as ph_total_budget
 from 
-  stockbit_test.raw_movies rm, 
+  stockbit_test1.raw_movies rm, 
   unnest(production_companies) pc, 
   unnest(genres) g
 group by 1,2,3

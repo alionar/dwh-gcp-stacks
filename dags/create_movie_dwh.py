@@ -183,10 +183,7 @@ create_movies_media = BigQueryOperator(
     dag=dag,
     use_legacy_sql = False,
     location='asia-southeast2',
-    sql=f'{airflow_home}/dags/sql/create_movies_media.sql',
-    params = {
-        'bq_dataset': bq_dataset
-    },
+    sql=f'{airflow_home}/sql/create_movies_media.sql',
     bigquery_conn_id='bigquery_default'
 )
 
@@ -204,10 +201,7 @@ create_movies_collection_lists = BigQueryOperator(
     dag=dag,
     use_legacy_sql = False,
     location='asia-southeast2',
-    sql=f'{airflow_home}/dags/sql/create_movies_collection_lists.sql',
-    params = {
-        'bq_dataset': bq_dataset
-    },
+    sql=f'{airflow_home}/sql/create_movies_collection_lists.sql',
     bigquery_conn_id='bigquery_default'
 )
 
@@ -225,10 +219,7 @@ create_movies_genres = BigQueryOperator(
     dag=dag,
     use_legacy_sql = False,
     location='asia-southeast2',
-    sql=f'{airflow_home}/dags/sql/create_movies_genres.sql',
-    params = {
-        'bq_dataset': bq_dataset
-    },
+    sql=f'{airflow_home}/sql/create_movies_genres.sql',
     bigquery_conn_id='bigquery_default'
 )
 
@@ -246,10 +237,7 @@ create_movies_fav_by_genre = BigQueryOperator(
     dag=dag,
     use_legacy_sql = False,
     location='asia-southeast2',
-    sql=f'{airflow_home}/dags/sql/create_movies_most_fav_by_genre.sql',
-    params = {
-        'bq_dataset': bq_dataset
-    },
+    sql=f'{airflow_home}/sql/create_movies_most_fav_by_genre.sql',
     bigquery_conn_id='bigquery_default'
 )
 
@@ -267,10 +255,7 @@ create_movies_fav_per_year = BigQueryOperator(
     dag=dag,
     use_legacy_sql=False,
     location='asia-southeast2',
-    sql=f'{airflow_home}/dags/sql/create_movies_most_fav_per_year.sql',
-    params = {
-        'bq_dataset': bq_dataset
-    },
+    sql=f'{airflow_home}/sql/create_movies_most_fav_per_year.sql',
     bigquery_conn_id='bigquery_default'
 )
 
@@ -288,10 +273,7 @@ create_popular_movies_by_genre = BigQueryOperator(
     dag=dag,
     use_legacy_sql=False,
     location='asia-southeast2',
-    sql=f'{airflow_home}/dags/sql/create_movies_popular_movie_by_genre.sql',
-    params = {
-        'bq_dataset': bq_dataset
-    },
+    sql=f'{airflow_home}/sql/create_movies_popular_movie_by_genre.sql',
     bigquery_conn_id='bigquery_default'
 )
 
@@ -309,10 +291,7 @@ create_popular_movies_per_year = BigQueryOperator(
     dag=dag,
     use_legacy_sql=False,
     location='asia-southeast2',
-    sql=f'{airflow_home}/dags/sql/create_movies_popular_released_per_year.sql',
-    params = {
-        'bq_dataset': bq_dataset
-    },
+    sql=f'{airflow_home}/sql/create_movies_popular_released_per_year.sql',
     bigquery_conn_id='bigquery_default'
 )
 
@@ -330,10 +309,7 @@ create_movies_production_countries = BigQueryOperator(
     dag=dag,
     use_legacy_sql=False,
     location='asia-southeast2',
-    sql=f'{airflow_home}/dags/sql/create_movies_production_countries.sql',
-    params = {
-        'bq_dataset': bq_dataset
-    },
+    sql=f'{airflow_home}/sql/create_movies_production_countries.sql',
     bigquery_conn_id='bigquery_default'
 )
 
@@ -351,10 +327,7 @@ create_movies_spoken_languages = BigQueryOperator(
     dag=dag,
     use_legacy_sql=False,
     location='asia-southeast2',
-    sql=f'{airflow_home}/dags/sql/create_movies_spoken_languages.sql',
-    params = {
-        'bq_dataset': bq_dataset
-    },
+    sql=f'{airflow_home}/sql/create_movies_spoken_languages.sql',
     bigquery_conn_id='bigquery_default'
 )
 
@@ -372,10 +345,7 @@ create_production_companies_portofolio = BigQueryOperator(
     dag=dag,
     use_legacy_sql=False,
     location='asia-southeast2',
-    sql=f'{airflow_home}/dags/sql/create_production_companies_portofolio.sql',
-    params = {
-        'bq_dataset': bq_dataset
-    },
+    sql=f'{airflow_home}/sql/create_production_companies_portofolio.sql',
     bigquery_conn_id='bigquery_default'
 )
 
