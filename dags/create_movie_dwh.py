@@ -169,8 +169,8 @@ check_raw_movies = BigQueryCheckOperator(
 
 
 # Create tables and transform
-create_table = DummyOperator(
-    task_id='create_table',
+create_table_start = DummyOperator(
+    task_id='create_table_start',
     dag=dag
 )
 
@@ -375,6 +375,12 @@ check_production_companies_portofolio = BigQueryOperator(
 )
 
 # End of pipeline
+create_table_end = DummyOperator(
+    task_id='create_table_end',
+    dag=dag
+)
+
+
 delete_local_dataset = BashOperator(
     task_id='delete_local_dataset',
     dag=dag,
@@ -393,7 +399,7 @@ upload_data_to_gcs >> create_gcs_bucket >> upload_ds_to_gcs >> check_uploaded_fi
 
 upload_gcs_to_bq >> create_dataset >> load_from_gcs_to_bq >> check_raw_movies >> create_table
 
-create_table >> [create_movies_media, create_movies_collection_lists, create_movies_fav_by_genre, create_movies_fav_per_year, create_popular_movies_by_genre, create_popular_movies_per_year, create_movies_production_countries, create_movies_spoken_languages, create_production_companies_portofolio] 
+create_table_start >> [create_movies_media, create_movies_collection_lists, create_movies_fav_by_genre, create_movies_fav_per_year, create_popular_movies_by_genre, create_popular_movies_per_year, create_movies_production_countries, create_movies_spoken_languages, create_production_companies_portofolio] 
 
 create_movies_media >> check_movies_media
 create_movies_collection_lists >> check_movies_collection_lists
@@ -406,4 +412,6 @@ create_movies_production_countries >> check_movies_production_countries
 create_movies_spoken_languages >>check_movies_spoken_languages
 create_production_companies_portofolio >> check_production_companies_portofolio
 
-[check_movies_media, check_movies_collection_lists, check_movies_genres, check_movies_fav_by_genre, check_movies_fav_per_year, check_popular_movies_by_genre, check_popular_movies_per_year, check_movies_production_countries, check_movies_spoken_languages, check_production_companies_portofolio] >> delete_local_dataset >> pipeline_end
+[check_movies_media, check_movies_collection_lists, check_movies_genres, check_movies_fav_by_genre, check_movies_fav_per_year, check_popular_movies_by_genre, check_popular_movies_per_year, check_movies_production_countries, check_movies_spoken_languages, check_production_companies_portofolio] >> create_table_end
+
+create_table_end >> delete_local_dataset >> pipeline_end
