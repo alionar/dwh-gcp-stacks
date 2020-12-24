@@ -42,10 +42,10 @@ def gcs_upload_dataset_to_bucket(bucket_name=bucket_name, bucket_folder=bucket_f
     json_files = random.sample(glob.glob(dataset_folder), n_files)
 
     if len(json_files) > 0:
-        print(f'Delete another json files: {len(os.listdir(dataset_path))-n_files} files')
-        for filename in os.listdir(dataset_path):
-            if f'{dataset_path}/{filename}' not in json_files:
-                os.remove(f'{dataset_path}/{filename}')
+        # print(f'Delete another json files: {len(os.listdir(dataset_path))-n_files} files')
+        # for filename in os.listdir(dataset_path):
+        #     if f'{dataset_path}/{filename}' not in json_files:
+        #         os.remove(f'{dataset_path}/{filename}')
 
         print(f"There're {len(json_files)} files ready to upload to GCS")
         print(f'Get bucket: {bucket_name}')
