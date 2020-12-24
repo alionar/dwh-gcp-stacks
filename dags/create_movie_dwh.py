@@ -399,7 +399,7 @@ upload_data_to_gcs >> create_gcs_bucket >> upload_ds_to_gcs >> check_uploaded_fi
 
 upload_gcs_to_bq >> create_dataset >> load_from_gcs_to_bq >> check_raw_movies >> create_table_start
 
-create_table_start >> [create_movies_media, create_movies_collection_lists, create_movies_fav_by_genre, create_movies_fav_per_year, create_popular_movies_by_genre, create_popular_movies_per_year, create_movies_production_countries, create_movies_spoken_languages, create_production_companies_portofolio] 
+create_table_start >> [create_movies_genres, create_movies_media, create_movies_collection_lists, create_movies_fav_by_genre, create_movies_fav_per_year, create_popular_movies_by_genre, create_popular_movies_per_year, create_movies_production_countries, create_movies_spoken_languages, create_production_companies_portofolio] 
 
 create_movies_media >> check_movies_media
 create_movies_collection_lists >> check_movies_collection_lists
