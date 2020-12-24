@@ -1,10 +1,10 @@
-create table stockbit_test.movies_popular_movie_by_genre as
+create table {{ params.bq_dataset }}.movies_popular_movie_by_genre as
 with pop_genre1 as (
   select
     g.name as genres,
     array_agg(struct(rm1.id, rm1.popularity) order by rm1.popularity desc limit 1) as popular
   from
-    stockbit_test.raw_movies rm1, unnest(genres) g
+    {{ params.bq_dataset }}.raw_movies rm1, unnest(genres) g
   group by 1
 )
 , pop_genre2 as (
@@ -22,7 +22,7 @@ with pop_genre1 as (
     rm2.title as movie_title,
     EXTRACT(ISOYEAR FROM rm2.release_date) as year
   from
-    stockbit_test.raw_movies rm2
+    {{ params.bq_dataset }}.raw_movies rm2
   group by 1,2,3
 )
 , etc_att as (
@@ -31,7 +31,7 @@ with pop_genre1 as (
     array_agg(distinct pct.name respect nulls) as movie_country,
     array_agg(distinct ph.name respect nulls) as ph_name
   from 
-    stockbit_test.raw_movies a,
+    {{ params.bq_dataset }}.raw_movies a,
     unnest(a.production_countries) pct,
     unnest(a.production_companies) ph
   group by 1

@@ -1,4 +1,4 @@
-create table if not exists stockbit_test.movies_media as
+create table if not exists {{ params.bq_dataset }}.movies_media as
 select
   id as movie_id,
   imdb_id, 
@@ -14,5 +14,5 @@ select
   end as backdrop_image_url,
   video
 from
-  stockbit_test.raw_movies rm
+  {{ params.bq_dataset }}.raw_movies rm
 order by 1

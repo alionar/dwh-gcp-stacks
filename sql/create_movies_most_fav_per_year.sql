@@ -1,10 +1,10 @@
-create table stockbit_test.movies_most_fav_per_year as
+create table {{ params.bq_dataset }}.movies_most_fav_per_year as
 with vote_movie1 as (
   select 
     rw2.id as movie_id, 
     EXTRACT(ISOYEAR FROM rw2.release_date) as year, 
     rw2.vote_average as vote_avg
-  from stockbit_test.raw_movies rw2
+  from {{ params.bq_dataset }}.raw_movies rw2
   where rw2.status = 'Released'
   group by 1,2,3
 )
@@ -29,7 +29,7 @@ with vote_movie1 as (
     array_agg(distinct rg.name respect nulls) as genre_name,
     array_agg(distinct ph.name respect nulls) as ph_name
   from 
-    stockbit_test.raw_movies a,
+    {{ params.bq_dataset }}.raw_movies a,
     unnest(a.production_countries) pct,
     unnest(a.genres) rg,
     unnest(a.production_companies) ph
@@ -48,7 +48,7 @@ with vote_movie1 as (
     vote_count,
     release_date
   from 
-    stockbit_test.raw_movies b
+    {{ params.bq_dataset }}.raw_movies b
   group by 1,2,3,4,5,6,7,8,9,10
 )
 , main_table as (

@@ -1,4 +1,4 @@
-create table stockbit_test.movies_collection_lists as
+create table {{ params.bq_dataset }}.movies_collection_lists as
 with mov_coll as(
  select 
   bc.id as collection_id,
@@ -13,13 +13,13 @@ with mov_coll as(
     when bc.backdrop_path is not null then CONCAT('https://image.tmdb.org/t/p/original', bc.backdrop_path)
   end as backdrop_image_url,
  from 
-    stockbit_test.raw_movies rm1, 
+    {{ params.bq_dataset }}.raw_movies rm1, 
     unnest(belongs_to_collection) bc
  group by 1,2,3,4,5
  )
  , movie_name as (
  select rm2.id, rm2.title
- from stockbit_test.raw_movies rm2
+ from {{ params.bq_dataset }}.raw_movies rm2
  group by 1,2
  )
  select 

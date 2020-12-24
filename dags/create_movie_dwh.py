@@ -24,7 +24,7 @@ default_args = {
 # VARIABLE
 airflow_home = '/usr/local/airflow'
 project_id = 'certain-region-299014'
-bq_dataset = 'stockbit_test'
+bq_dataset = 'stockbit_test1'
 gs_bucket = 'stockbit_test'
 bucket_name = 'stockbit_test1'
 bucket_location = 'ASIA-SOUTHEAST2'
@@ -180,6 +180,9 @@ create_movies_media = BigQueryOperator(
     use_legacy_sql = False,
     location='asia-southeast2',
     sql=f'{airflow_home}/sql/create_movies_media.sql',
+    params = {
+        'bq_dataset': bq_dataset
+    },
     bigquery_conn_id='bigquery_default'
 )
 
@@ -197,6 +200,9 @@ create_movies_collection_lists = BigQueryOperator(
     use_legacy_sql = False,
     location='asia-southeast2',
     sql=f'{airflow_home}/sql/create_movies_collection_lists.sql',
+    params = {
+        'bq_dataset': bq_dataset
+    },
     bigquery_conn_id='bigquery_default'
 )
 
@@ -214,6 +220,9 @@ create_movies_genres = BigQueryOperator(
     use_legacy_sql = False,
     location='asia-southeast2',
     sql=f'{airflow_home}/sql/create_movies_genres.sql',
+    params = {
+        'bq_dataset': bq_dataset
+    },
     bigquery_conn_id='bigquery_default'
 )
 
@@ -231,6 +240,9 @@ create_movies_fav_by_genre = BigQueryOperator(
     use_legacy_sql = False,
     location='asia-southeast2',
     sql=f'{airflow_home}/sql/create_movies_most_fav_by_genre.sql',
+    params = {
+        'bq_dataset': bq_dataset
+    },
     bigquery_conn_id='bigquery_default'
 )
 
@@ -248,6 +260,9 @@ create_movies_fav_per_year = BigQueryOperator(
     use_legacy_sql=False,
     location='asia-southeast2',
     sql=f'{airflow_home}/sql/create_movies_most_fav_per_year.sql',
+    params = {
+        'bq_dataset': bq_dataset
+    },
     bigquery_conn_id='bigquery_default'
 )
 
@@ -265,6 +280,9 @@ create_popular_movies_by_genre = BigQueryOperator(
     use_legacy_sql=False,
     location='asia-southeast2',
     sql=f'{airflow_home}/sql/create_movies_popular_movie_by_genre.sql',
+    params = {
+        'bq_dataset': bq_dataset
+    },
     bigquery_conn_id='bigquery_default'
 )
 
@@ -282,6 +300,9 @@ create_popular_movies_per_year = BigQueryOperator(
     use_legacy_sql=False,
     location='asia-southeast2',
     sql=f'{airflow_home}/sql/create_movies_popular_released_per_year.sql',
+    params = {
+        'bq_dataset': bq_dataset
+    },
     bigquery_conn_id='bigquery_default'
 )
 
@@ -299,6 +320,9 @@ create_movies_production_countries = BigQueryOperator(
     use_legacy_sql=False,
     location='asia-southeast2',
     sql=f'{airflow_home}/sql/create_movies_production_countries.sql',
+    params = {
+        'bq_dataset': bq_dataset
+    },
     bigquery_conn_id='bigquery_default'
 )
 
@@ -316,6 +340,9 @@ create_movies_spoken_languages = BigQueryOperator(
     use_legacy_sql=False,
     location='asia-southeast2',
     sql=f'{airflow_home}/sql/create_movies_spoken_languages.sql',
+    params = {
+        'bq_dataset': bq_dataset
+    },
     bigquery_conn_id='bigquery_default'
 )
 
@@ -333,6 +360,9 @@ create_production_companies_portofolio = BigQueryOperator(
     use_legacy_sql=False,
     location='asia-southeast2',
     sql=f'{airflow_home}/sql/create_production_companies_portofolio.sql',
+    params = {
+        'bq_dataset': bq_dataset
+    },
     bigquery_conn_id='bigquery_default'
 )
 
