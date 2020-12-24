@@ -9,6 +9,7 @@ bucket_name = 'stockbit_test'
 creds_file = f'{airflow_home}/creds/gcs_client_secret.json'
 bucket_location = "ASIA-SOUTHEAST2"
 dataset_folder = f'{airflow_home}/dataset/movies/movies/*.json'
+dataset_path = f"{airflow_home}/dataset/movies/movies"
 bucket_folder = 'movies'
 
 
@@ -36,14 +37,13 @@ def gcs_create_bucket(bucket_name=bucket_name, bucket_location=bucket_location):
         raise Exception(f"error: {e}")
 
 
-def gcs_upload_dataset_to_bucket(bucket_name=bucket_name, bucket_folder=bucket_folder, dataset_folder=dataset_folder, n_files=2000):
+def gcs_upload_dataset_to_bucket(bucket_name=bucket_name, bucket_folder=bucket_folder, dataset_path=dataset_path, dataset_folder=dataset_folder, n_files=2000):
     print(f'Select json files to upload as dataset: {n_files} files')
-    all_
     json_files = random.sample(glob.glob(dataset_folder), n_files)
 
     if len(json_files) > 0:
-        print(f'Delete another json files: {len(os.listdir(dataset_folder))-n_files} files')
-        for filename in os.listdir(dataset_folder):
+        print(f'Delete another json files: {len(os.listdir(dataset_path))-n_files} files')
+        for filename in os.listdir(dataset_path):
             if filename not in json_files:
                 os.remove(filename)
 

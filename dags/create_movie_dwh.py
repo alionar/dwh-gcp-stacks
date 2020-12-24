@@ -24,12 +24,13 @@ default_args = {
 # VARIABLE
 airflow_home = '/usr/local/airflow'
 project_id = 'certain-region-299014'
-dataset = 'stockbit_test'
+bq_dataset = 'stockbit_test'
 gs_bucket = 'stockbit_test'
 bucket_name = 'stockbit_test1'
 bucket_location = 'ASIA-SOUTHEAST2'
 bucket_folder = 'movies'
 dataset_folder = f'{airflow_home}/dataset/movies/movies/*.json'
+dataset_path = f"{airflow_home}/dataset/movies/movies"
 os.environ["KAGGLE_USERNAME"] = Variable.get('kaggle_username')
 os.environ["KAGGLE_KEY"] = Variable.get('kaggle_api_key')
 
@@ -106,6 +107,7 @@ upload_ds_to_gcs = PythonOperator(
         'bucket_name': bucket_name,
         'bucket_folder': bucket_folder,
         'dataset_folder': dataset_folder,
+        'dataset_path': dataset_path,
         'n_files': 10000
     }
 )
@@ -136,7 +138,7 @@ create_dataset = PythonOperator(
     python_callable=bq_create_dataset,
     op_kwargs={
         'project_id': project_id,
-        'bq_dataset': dataset,
+        'bq_dataset': bq_dataset,
         'bucket_location': bucket_location
     }
 )
@@ -148,7 +150,7 @@ load_from_gcs_to_bq = PythonOperator(
     python_callable=bq_load_from_gcs,
     op_kwargs={
         'project_id': project_id,
-        'bq_dataset': dataset,
+        'bq_dataset': bq_dataset,
         'table_name': 'raw_movies',
         'bq_schema': f'{airflow_home}/dataset/movies_schema.json',
         'bucket_name': bucket_name,
@@ -161,7 +163,7 @@ check_raw_movies = BigQueryCheckOperator(
     task_id='check_raw_movies',
     dag=dag,
     use_legacy_sql=False,
-    sql=f'SELECT count(*) = count(distinct id) from {project_id}.{dataset}.raw_movies',
+    sql=f'SELECT count(*) = count(distinct id) from {project_id}.{bq_dataset}.raw_movies',
     bigquery_conn_id='bigquery_default'
 )
 
@@ -185,7 +187,7 @@ check_movies_media = BigQueryCheckOperator(
     task_id='check_movies_media',
     dag=dag,
     use_legacy_sql=False,
-    sql=f'SELECT count(*) = count(distinct movie_id) FROM {project_id}.{dataset}.movies_media',
+    sql=f'SELECT count(*) = count(distinct movie_id) FROM {project_id}.{bq_dataset}.movies_media',
     bigquery_conn_id='bigquery_default'
 )
 
@@ -202,7 +204,7 @@ check_movies_collection_lists = BigQueryCheckOperator(
     task_id='check_movies_collection_lists',
     dag=dag,
     use_legacy_sql=False,
-    sql=f'SELECT count(*) = count(distinct collection_id) FROM {project_id}.{dataset}.movies_collection_lists',
+    sql=f'SELECT count(*) = count(distinct collection_id) FROM {project_id}.{bq_dataset}.movies_collection_lists',
     bigquery_conn_id='bigquery_default'
 )
 
@@ -219,7 +221,7 @@ check_movies_genres = BigQueryCheckOperator(
     task_id='check_movies_genres',
     dag=dag,
     use_legacy_sql=False,
-    sql=f'SELECT count(*) = count(distinct id) FROM {project_id}.{dataset}.movies_genres',
+    sql=f'SELECT count(*) = count(distinct id) FROM {project_id}.{bq_dataset}.movies_genres',
     bigquery_conn_id='bigquery_default'
 )
 
@@ -236,7 +238,7 @@ check_movies_fav_by_genre = BigQueryCheckOperator(
     task_id='check_movies_fav_by_genres',
     dag=dag,
     use_legacy_sql=False,
-    sql=f'SELECT count(*) FROM {project_id}.{dataset}.movies_most_fav_by_genre',
+    sql=f'SELECT count(*) FROM {project_id}.{bq_dataset}.movies_most_fav_by_genre',
     bigquery_conn_id='bigquery_default'
 )
 
@@ -253,7 +255,7 @@ check_movies_fav_per_year = BigQueryCheckOperator(
     task_id='check_movies_fav_per_year',
     dag=dag,
     use_legacy_sql=False,
-    sql=f'SELECT count(*) FROM {project_id}.{dataset}.movies_most_fav_per_year',
+    sql=f'SELECT count(*) FROM {project_id}.{bq_dataset}.movies_most_fav_per_year',
     bigquery_conn_id='bigquery_default'
 )
 
@@ -270,7 +272,7 @@ check_popular_movies_by_genre = BigQueryCheckOperator(
     task_id='check_popular_movies_by_genre',
     dag=dag,
     use_legacy_sql=False,
-    sql=f'SELECT count(*) FROM {project_id}.{dataset}.movies_popular_movie_by_genre',
+    sql=f'SELECT count(*) FROM {project_id}.{bq_dataset}.movies_popular_movie_by_genre',
     bigquery_conn_id='bigquery_default'
 )
 
@@ -287,7 +289,7 @@ check_popular_movies_per_year = BigQueryOperator(
     task_id='check_popular_movies_per_year',
     dag=dag,
     use_legacy_sql=False,
-    sql=f'SELECT count(*) FROM {project_id}.{dataset}.movies_popular_released_per_year',
+    sql=f'SELECT count(*) FROM {project_id}.{bq_dataset}.movies_popular_released_per_year',
     bigquery_conn_id='bigquery_default'
 )
 
@@ -304,7 +306,7 @@ check_movies_production_countries = BigQueryOperator(
     task_id='check_movies_production_countries',
     dag=dag,
     use_legacy_sql=False,
-    sql=f'SELECT count(*) FROM {project_id}.{dataset}.movies_production_countries',
+    sql=f'SELECT count(*) FROM {project_id}.{bq_dataset}.movies_production_countries',
     bigquery_conn_id='bigquery_default'
 )
 
@@ -321,7 +323,7 @@ check_movies_spoken_languages = BigQueryOperator(
     task_id='check_movies_spoken_languages',
     dag=dag,
     use_legacy_sql=False,
-    sql=f'SELECT count(*) FROM {project_id}.{dataset}.movies_spoken_language',
+    sql=f'SELECT count(*) FROM {project_id}.{bq_dataset}.movies_spoken_language',
     bigquery_conn_id='bigquery_default'
 )
 
@@ -338,7 +340,7 @@ check_production_companies_portofolio = BigQueryOperator(
     task_id='check_production_companies_portofolio',
     dag=dag,
     use_legacy_sql=False,
-    sql=f'SELECT count(*) FROM {project_id}.{dataset}.production_companies_portofolio',
+    sql=f'SELECT count(*) FROM {project_id}.{bq_dataset}.production_companies_portofolio',
     bigquery_conn_id='bigquery_default'
 )
 
