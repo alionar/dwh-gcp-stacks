@@ -41,7 +41,8 @@ os.environ["KAGGLE_KEY"] = Variable.get('kaggle_api_key')
 dag = DAG(
     'create_movie_dwh',
     default_args=default_args,
-    schedule_interval='@once'
+    schedule_interval='@once',
+    template_searchpath=f'{airflow_home}/sql'
 )
 
 # Start the pipeline
