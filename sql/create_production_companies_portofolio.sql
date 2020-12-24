@@ -13,4 +13,4 @@ from
   unnest(production_companies) pc, 
   unnest(genres) g
 group by 1,2,3
-order by 6 desc
+order by 6 desc;

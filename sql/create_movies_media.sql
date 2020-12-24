@@ -15,4 +15,4 @@ select
   video
 from
   stockbit_test1.raw_movies rm
-order by 1
+order by 1;

@@ -29,4 +29,4 @@ with mov_coll as(
   mcl.poster_image_url, mcl.backdrop_image_url
  from mov_coll mcl
  left join movie_name mvn on mcl.movie_id = mvn.id
- group by 1,2,5,6
+ group by 1,2,5,6;

@@ -94,4 +94,4 @@ select
   t.overview
 from vote_movie3 pm3
 left join main_table t on pm3.movie_id = t.movie_id
-order by 1 desc
+order by 1 desc;

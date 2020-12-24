@@ -62,4 +62,4 @@ select
 from 
   pop_genre2 pg2
 left join main_table t on pg2.movie_id = t.movie_id
-order by 3 desc
+order by 3 desc;
