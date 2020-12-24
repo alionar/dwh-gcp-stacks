@@ -163,6 +163,7 @@ check_raw_movies = BigQueryCheckOperator(
     task_id='check_raw_movies',
     dag=dag,
     use_legacy_sql=False,
+    location='asia-southeast2',
     sql=f'SELECT count(*) = count(distinct id) from {project_id}.{bq_dataset}.raw_movies',
     bigquery_conn_id='bigquery_default'
 )
