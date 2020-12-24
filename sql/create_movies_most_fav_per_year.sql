@@ -20,7 +20,6 @@ with vote_movie1 as (
   from vote_movie2 pm2, unnest(pm2.vote) pv
   order by 1 desc
 )
--- select * from vote_movie3
 , etc_att as (
   select 
     a.id as movie_id,
