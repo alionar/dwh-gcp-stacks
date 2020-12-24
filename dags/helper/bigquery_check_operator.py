@@ -49,6 +49,7 @@ class BigQueryCheckOperator(CheckOperator):
                  sql,
                  bigquery_conn_id='bigquery_default',
                  use_legacy_sql=True,
+                 location=None,
                  *args, **kwargs):
         super(BigQueryCheckOperator, self).__init__(sql=sql, *args, **kwargs)
         self.bigquery_conn_id = bigquery_conn_id
@@ -79,6 +80,7 @@ class BigQueryValueCheckOperator(ValueCheckOperator):
                  pass_value,
                  tolerance=None,
                  bigquery_conn_id='bigquery_default',
+                 location=None,
                  use_legacy_sql=True,
                  *args, **kwargs):
         super(BigQueryValueCheckOperator, self).__init__(
@@ -89,7 +91,8 @@ class BigQueryValueCheckOperator(ValueCheckOperator):
 
     def get_db_hook(self):
         return BigQueryHook(bigquery_conn_id=self.bigquery_conn_id,
-                            use_legacy_sql=self.use_legacy_sql)
+                            use_legacy_sql=self.use_legacy_sql,
+                            location=self.location)
 
 
 class BigQueryIntervalCheckOperator(IntervalCheckOperator):
@@ -121,7 +124,7 @@ class BigQueryIntervalCheckOperator(IntervalCheckOperator):
     @apply_defaults
     def __init__(self, table, metrics_thresholds, date_filter_column='ds',
                  days_back=-7, bigquery_conn_id='bigquery_default',
-                 use_legacy_sql=True, *args, **kwargs):
+                location=None, use_legacy_sql=True, *args, **kwargs):
         super(BigQueryIntervalCheckOperator, self).__init__(
             table=table, metrics_thresholds=metrics_thresholds,
             date_filter_column=date_filter_column, days_back=days_back,

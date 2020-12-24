@@ -31,7 +31,7 @@ class BigQueryHook(GoogleCloudBaseHook, DbApiHook):
                  bigquery_conn_id='bigquery_default',
                  delegate_to=None,
                  use_legacy_sql=True,
-                 location='asia-southeast2'):
+                 location=None):
         super(BigQueryHook, self).__init__(
             gcp_conn_id=bigquery_conn_id, delegate_to=delegate_to)
         self.use_legacy_sql = use_legacy_sql
@@ -1964,6 +1964,7 @@ class BigQueryCursor(BigQueryBaseCursor):
             query_results = (self.service.jobs().getQueryResults(
                 projectId=self.project_id,
                 jobId=self.job_id,
+                location=self.location,
                 pageToken=self.page_token).execute(num_retries=self.num_retries))
 
             if 'rows' in query_results and query_results['rows']:
