@@ -52,14 +52,6 @@ pipeline_start = DummyOperator(
 
 # Download data from Kaggle dataset
 ## https://www.kaggle.com/edgartanaka1/tmdb-movies-and-series
-
-## Create kaggle creds for user airflow
-# create_kaggle_creds = BashOperator(
-#     task_id="create_kaggle_creds",
-#     dag=dag,
-#     bash_command=f"cd {airflow_home} && mkdir {airflow_home}/.kaggle && cat {airflow_home}/creds/kaggle.json > {airflow_home}/.kaggle/kaggle.json && chmod 600 {airflow_home}/.kaggle/kaggle.json"
-# )
-
 download_dataset = PythonOperator(
     task_id='download_dataset',
     dag=dag,
@@ -171,7 +163,7 @@ check_raw_movies = BigQueryCheckOperator(
 )
 
 
-# Create tables and transform
+# Create tables and transform dataset into tables
 create_table_start = DummyOperator(
     task_id='create_table_start',
     dag=dag
