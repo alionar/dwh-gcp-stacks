@@ -1,3 +1,4 @@
+#standardSQL
 with pop_genre1 as (
   select
     g.name as genres,

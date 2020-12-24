@@ -1,3 +1,4 @@
+#standardSQL
 with mov_coll as(
  select 
   bc.id as collection_id,

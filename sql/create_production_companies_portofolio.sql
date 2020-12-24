@@ -1,3 +1,4 @@
+#standardSQL
 select 
   pc.id as ph_id,
   pc.name as ph_name,
