@@ -2,6 +2,8 @@ from google.cloud import storage
 import glob
 import random
 import os
+import multiprocessing
+from joblib import Parallel, delayed
 
 # VARIABLE TEST
 airflow_home = '/usr/local/airflow'
@@ -37,15 +39,23 @@ def gcs_create_bucket(bucket_name=bucket_name, bucket_location=bucket_location):
         raise Exception(f"error: {e}")
 
 
+def delete_files(filepath):
+    if os.path.exists(filepath):
+        os.remove(filepath)
+    else:
+        pass
+
+
 def gcs_upload_dataset_to_bucket(bucket_name=bucket_name, bucket_folder=bucket_folder, dataset_path=dataset_path, dataset_folder=dataset_folder, n_files=2000):
     print(f'Select json files to upload as dataset: {n_files} files')
-    json_files = random.sample(glob.glob(dataset_folder), n_files)
+    files = glob.glob(dataset_folder)
+    json_files = random.sample(files, n_files)
 
     if len(json_files) > 0:
-        # print(f'Delete another json files: {len(os.listdir(dataset_path))-n_files} files')
-        # for filename in os.listdir(dataset_path):
-        #     if f'{dataset_path}/{filename}' not in json_files:
-        #         os.remove(f'{dataset_path}/{filename}')
+        print(f'Delete another json files: {len(files)-len(json_files)} files')
+        exclude_dataset = set(files).difference(json_files)
+        num_cores = multiprocessing.cpu_count()
+        results = Parallel(n_jobs=num_cores)(delayed(delete_files)(filepath) for filepath in exclude_dataset)
 
         print(f"There're {len(json_files)} files ready to upload to GCS")
         print(f'Get bucket: {bucket_name}')

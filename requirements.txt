@@ -7,3 +7,4 @@ google-auth-httplib2==0.0.3
 google-api-python-client==1.8.0
 pandas-gbq==0.13.1
 pandas==0.25.3
+joblib==1.0.0
